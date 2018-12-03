@@ -1,0 +1,8 @@
+*.class
+
+# packages
+*.jar
+*.war
+*.ear
+
+.DS_Store
