@@ -16,7 +16,10 @@ public class PokemonGridGame {
 		scan.nextLine();
 		System.out.println("Of course, " + name + ", glad to meet you");
 		System.out.println("This is the grid, and it's pretty simple to move around it actually\n\nNow i want you to press 'W' 'A' 'S' or 'D' to move in the corresponding direction");
-		move(name, rowPos, colPos);
+
+		Grid grid = new Grid(3,5,name.charAt(0));
+		System.out.println(grid.toString());
+
 	}
 
 	private static void grid(String name, int rowPos, int colPos) {
@@ -58,4 +61,52 @@ public class PokemonGridGame {
 		}
 	}
 	
+}
+
+class Grid {
+
+	int rows = 15;
+	int cols = 50;
+	int rowPos = rows / 2;
+	int colPos = cols / 2;
+	String grass = " - ";
+	String tallGrass = " | ";
+	String noWalk = " O ";
+	String pokemon = "Poke";
+	String[][] grid = new String[rows][cols];
+
+	Grid (int x, int y, char ch) {
+		for (int r  = 0; r < grid.length; r++) {
+			for (int c = 0; c < grid[r].length; c++) {
+				grid[r][c] = " - ";
+			}
+		}
+		grid[x][y] = " " + ch + " ";
+		// for (int r = 0; r <= rows; r++) {
+		// 	for (int c = 0; c <= cols; c++) {
+		// 		if (r == rowPos && c == colPos) {
+		// 			System.out.print(" " + name.charAt(0) + " ");
+		// 		}
+		// 		else {
+		// 			System.out.print(" - ");
+		// 		}
+		// 	}
+		// 	System.out.println();
+		// }
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (int r  = 0; r < grid.length; r++) {
+			for (int c = 0; c < grid[r].length; c++) {
+				sb.append(grid[r][c]);
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+	//TODO make a default constructor that makes a blank grid
+
+	//change r3 c4 from - to N
 }
