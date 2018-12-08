@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class PokemonGridGame {
 	private static final int ROWS = 15;
 	private static final int COLS = 50;
+	static int stopMove = 1;
 	public static void main(String[] args) {
 		int rowPos = ROWS / 2;
 		int colPos = COLS / 2;
@@ -18,81 +19,59 @@ public class PokemonGridGame {
 		System.out.println("This is the grid, and it's pretty simple to move around it actually\n\nNow i want you to press 'W' 'A' 'S' or 'D' to move in the corresponding direction");
 
 		Grid grid = new Grid(3,5,name.charAt(0));
-		System.out.println(grid.toString());
-
-	}
-
-	private static void grid(String name, int rowPos, int colPos) {
-		for (int r = 0; r <= ROWS; r++) {
-			for (int c = 0; c <= COLS; c++) {
-				if (r == rowPos && c == colPos) {
-					System.out.print(" " + name.charAt(0) + " ");
-				}
-				else {
-					System.out.print(" - ");
-				}
-			}
-			System.out.println();
-		}
-	}
-	private static void move(String name, int rowPos, int colPos) {
-		Scanner scanny = new Scanner(System.in);
-		boolean isForever = true;
-		for (int i = 0; isForever; i++) {
-			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-			grid(name, rowPos, colPos);
-			String move  = scanny.nextLine();
-			if (move.equalsIgnoreCase("w")) {
-				rowPos--;
-			}
-			if (move.equalsIgnoreCase("a")) {
-				colPos--;
-			}
-			if (move.equalsIgnoreCase("s")) {
-				rowPos++;
-			}
-			if (move.equalsIgnoreCase("d")) {
-				colPos++;
-			}
-			else if (move.equalsIgnoreCase("q")) {
-				break;
-			}
-
+		while (stopMove > 0) {
+			String move = scan.next();
+			scan.nextLine();
+			grid.movePlayer(move, name.substring(0, 1));
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + grid.toString());
 		}
 	}
 	
 }
 
 class Grid {
-
 	int rows = 15;
 	int cols = 50;
 	int rowPos = rows / 2;
 	int colPos = cols / 2;
+	int playerRow = 0;
+	int playerColumn = 0;
 	String grass = " - ";
 	String tallGrass = " | ";
 	String noWalk = " O ";
 	String pokemon = "Poke";
 	String[][] grid = new String[rows][cols];
 
-	Grid (int x, int y, char ch) {
+	Grid(int x, int y, char ch) {
 		for (int r  = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[r].length; c++) {
 				grid[r][c] = " - ";
 			}
 		}
 		grid[x][y] = " " + ch + " ";
-		// for (int r = 0; r <= rows; r++) {
-		// 	for (int c = 0; c <= cols; c++) {
-		// 		if (r == rowPos && c == colPos) {
-		// 			System.out.print(" " + name.charAt(0) + " ");
-		// 		}
-		// 		else {
-		// 			System.out.print(" - ");
-		// 		}
-		// 	}
-		// 	System.out.println();
-		// }
+		this.playerRow = x;
+		this.playerColumn = y;
+	}
+
+	void movePlayer(String move, String name) {
+		String player = name;
+		
+		if (move.equalsIgnoreCase("w")) {
+			this.playerRow--;
+		}
+		if (move.equalsIgnoreCase("a")) {
+			this.playerColumn--;
+		}
+		if (move.equalsIgnoreCase("s")) {
+			this.playerRow++;
+		}
+		if (move.equalsIgnoreCase("d")) {
+			this.playerColumn++;
+		}
+		else if (move.equalsIgnoreCase("q")) {
+			PokemonGridGame.stopMove = 0;
+		}
+		grid[playerRow][playerColumn] = " " + player + " ";
 	}
 
 	@Override
