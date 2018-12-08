@@ -55,13 +55,7 @@ class Grid {
 
 	void movePlayer(String move, String name) {
 		String player = name;
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].equalsIgnoreCase(" " + name.substring(0, 1) + " ")) {
-					grid[i][j] = GRASS;
-				}
-			}
-		}
+		grid[playerRow][playerColumn] = GRASS;
 		if (move.equalsIgnoreCase("w")) {
 			this.playerRow--;
 		}
