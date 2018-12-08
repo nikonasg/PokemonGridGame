@@ -23,7 +23,7 @@ public class PokemonGridGame {
 			String move = scan.next();
 			scan.nextLine();
 			grid.movePlayer(move, name.substring(0, 1));
-			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + grid.toString());
+			System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + grid.toString());
 		}
 	}
 	
@@ -36,7 +36,7 @@ class Grid {
 	int colPos = cols / 2;
 	int playerRow = 0;
 	int playerColumn = 0;
-	String grass = " - ";
+	private static final String GRASS = " - ";
 	String tallGrass = " | ";
 	String noWalk = " O ";
 	String pokemon = "Poke";
@@ -45,7 +45,7 @@ class Grid {
 	Grid(int x, int y, char ch) {
 		for (int r  = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[r].length; c++) {
-				grid[r][c] = " - ";
+				grid[r][c] = GRASS;
 			}
 		}
 		grid[x][y] = " " + ch + " ";
@@ -55,7 +55,13 @@ class Grid {
 
 	void movePlayer(String move, String name) {
 		String player = name;
-		
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].equalsIgnoreCase(" " + name.substring(0, 1) + " ")) {
+					grid[i][j] = GRASS;
+				}
+			}
+		}
 		if (move.equalsIgnoreCase("w")) {
 			this.playerRow--;
 		}
