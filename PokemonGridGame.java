@@ -47,7 +47,7 @@ class Grid {
 	public static final String PURPLE = "\u001B[35m";
 	public static final String CYAN = "\u001B[36m";
 	public static final String WHITE = "\u001B[37m";
-	private static final String tallGrass = GREEN + " | " + RESET;
+	private static final String tallGrass = CYAN + " | " + RESET;
 	private static final String noWalk = RED + " O " + RESET;
 	private static final String pokemon = BLUE + "Poke" + RESET;
 	private static final String GRASS = GREEN + " - " + RESET;
@@ -78,19 +78,46 @@ class Grid {
 		String player = name;
 		grid[playerRow][playerColumn] = GRASS;
 		if (move.equalsIgnoreCase("w")) {
-			this.playerRow--;
+			if (grid[playerRow - 1][playerColumn].equals(noWalk)) {
+
+			}
+			else {
+				this.playerRow--;
+			}
 		}
 		if (move.equalsIgnoreCase("a")) {
-			this.playerColumn--;
+			if (grid[playerRow][playerColumn - 1].equals(noWalk)) {
+
+			}
+			else {
+				this.playerColumn--;
+			}
+			
 		}
 		if (move.equalsIgnoreCase("s")) {
-			this.playerRow++;
+			if (grid[playerRow + 1][playerColumn].equals(noWalk)) {
+
+			}
+			else {
+				this.playerRow++;
+			}
 		}
 		if (move.equalsIgnoreCase("d")) {
-			this.playerColumn++;
+			if (grid[playerRow][playerColumn + 1].equals(noWalk)) {
+
+			}
+			else {
+				this.playerColumn++;
+			}
 		}
 		else if (move.equalsIgnoreCase("q")) {
 			PokemonGridGame.stopMove = 0;
+		}
+		if (grid[playerRow][playerColumn].equals(tallGrass)) {
+			player += CYAN;
+		}
+		else {
+			player += RESET;
 		}
 		grid[playerRow][playerColumn] = " " + player + " ";
 	}
