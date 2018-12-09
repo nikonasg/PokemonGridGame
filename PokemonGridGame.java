@@ -36,10 +36,21 @@ class Grid {
 	int colPos = cols / 2;
 	int playerRow = 0;
 	int playerColumn = 0;
-	private static final String GRASS = " - ";
-	String tallGrass = " | ";
-	String noWalk = " O ";
-	String pokemon = "Poke";
+
+	//from: https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+	public static final String RESET = "\u001B[0m";
+	public static final String BLACK = "\u001B[30m";
+	public static final String RED = "\u001B[31m";
+	public static final String GREEN = "\u001B[32m";
+	public static final String YELLOW = "\u001B[33m";
+	public static final String BLUE = "\u001B[34m";
+	public static final String PURPLE = "\u001B[35m";
+	public static final String CYAN = "\u001B[36m";
+	public static final String WHITE = "\u001B[37m";
+	private static final String tallGrass = " | ";
+	private static final String noWalk = " O ";
+	private static final String pokemon = "Poke";
+	private static final String GRASS = GREEN + " - " + RESET;
 	String[][] grid = new String[rows][cols];
 
 	Grid(int x, int y, char ch) {
