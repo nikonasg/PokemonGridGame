@@ -47,16 +47,26 @@ class Grid {
 	public static final String PURPLE = "\u001B[35m";
 	public static final String CYAN = "\u001B[36m";
 	public static final String WHITE = "\u001B[37m";
-	private static final String tallGrass = " | ";
-	private static final String noWalk = " O ";
-	private static final String pokemon = "Poke";
+	private static final String tallGrass = GREEN + " | " + RESET;
+	private static final String noWalk = RED + " O " + RESET;
+	private static final String pokemon = BLUE + "Poke" + RESET;
 	private static final String GRASS = GREEN + " - " + RESET;
 	String[][] grid = new String[rows][cols];
 
 	Grid(int x, int y, char ch) {
 		for (int r  = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[r].length; c++) {
-				grid[r][c] = GRASS;
+				int random = (int) (Math.random() * 101);
+				if (random >= 0 && random <= 60) {
+					grid[r][c] = GRASS;
+				}
+				else if (random >= 61 && random <= 90) {
+					grid[r][c] = tallGrass;
+				}
+				else if (random >= 91 && random <= 100) {
+					grid[r][c] = noWalk;
+				}
+				
 			}
 		}
 		grid[x][y] = " " + ch + " ";
