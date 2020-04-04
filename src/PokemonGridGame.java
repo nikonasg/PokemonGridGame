@@ -1,5 +1,13 @@
-//TODO use full screen mode so that we don't have to keep printng the board in terminal (just like less or vim)
+   //TODO use full screen mode so that we don't have to keep printng the board in terminal (just like less or vim)
+import java.io.IOException;
 
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.TerminalScreen;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.Terminal;
 
 
 import java.util.Scanner;
@@ -7,31 +15,71 @@ public class PokemonGridGame {
 	private static final int ROWS = 15;
 	private static final int COLS = 50;
 	static int stopMove = 1;
+
 	public static void main(String[] args) {
+		try {
+			run();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void run() throws IOException, InterruptedException {
+		Terminal terminal = new DefaultTerminalFactory().createTerminal();
+		Screen screen = new TerminalScreen(terminal);
+		TextGraphics tGraphics = screen.newTextGraphics();
+
+		screen.startScreen();
+		screen.clear();
+		int i = 0;
+		for (String col : Grid.grid[i]) {
+			if (col != null) {
+				tGraphics.putString(10, i++, col);
+				i++;
+			}
+			
+		}
+		screen.refresh();
+
+
+
 		int rowPos = ROWS / 2;
 		int colPos = COLS / 2;
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Welcome to pokemon, in this game, you will learn how to move up and down a grid");
-		System.out.println("Now tell me, what was your name was again");
+		tGraphics.putString(0, 1,("Welcome to pokemon, in this game, you will learn how to move up and down a grid"));
+		tGraphics.putString(0, 2,("Now tell me, what was your name was again"));
+		screen.refresh();
 		String name = scan.next();
 		scan.nextLine();
-		System.out.println("Of course, " + name + ", glad to meet you");
-		System.out.println("This is the grid, and it's pretty simple to move around it actually\n\nNow i want you to press 'W' 'A' 'S' or 'D' to move in the corresponding direction");
+		tGraphics.putString(0, 3, ("Of course, " + name + ", glad to meet you"));
+		tGraphics.putString(0, 4, ("This is the grid, and it's pretty simple to move around it actually"));
+		tGraphics.putString(0, 5, ("Now i want you to press 'W' 'A' 'S' or 'D' to move in the corresponding direction"));
+		screen.refresh();
 
 		Grid grid = new Grid(3,5,name.charAt(0));
+		String[] gridArray = grid.gridStringArray();
 		while (stopMove > 0) {
 			String move = scan.next();
 			scan.nextLine();
 			grid.movePlayer(move, name.substring(0, 1));
-			System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + grid.toString());
+			screen.clear();
+			scan.nextLine();
+			int j = 0;
+			for (String s : gridArray) {
+				tGraphics.putString(0, 10 + j, s);
+				j++;
+			}
+			screen.refresh();
 		}
+		screen.clear();
 	}
 	
 }
 
 class Grid {
-	int rows = 15;
-	int cols = 50;
+	static int rows = 15;
+	static int cols = 50;
 	int rowPos = rows / 2;
 	int colPos = cols / 2;
 	int playerRow = 0;
@@ -47,11 +95,11 @@ class Grid {
 	public static final String PURPLE = "\u001B[35m";
 	public static final String CYAN = "\u001B[36m";
 	public static final String WHITE = "\u001B[37m";
-	private static final String tallGrass = CYAN + " | " + RESET;
-	private static final String noWalk = RED + " O " + RESET;
-	private static final String pokemon = BLUE + "Poke" + RESET;
-	private static final String GRASS = GREEN + " - " + RESET;
-	String[][] grid = new String[rows][cols];
+	private static final String tallGrass = " | ";
+	private static final String noWalk = " O ";
+	private static final String pokemon = "Poke";
+	private static final String GRASS = " - ";
+	static String[][] grid = new String[rows][cols];
 
 	Grid(int x, int y, char ch) {
 		for (int r  = 0; r < grid.length; r++) {
@@ -113,13 +161,17 @@ class Grid {
 		else if (move.equalsIgnoreCase("q")) {
 			PokemonGridGame.stopMove = 0;
 		}
-		if (grid[playerRow][playerColumn].equals(tallGrass)) {
-			player += CYAN;
-		}
-		else {
-			player += RESET;
-		}
+		// if (grid[playerRow][playerColumn].equals(tallGrass)) {
+		// 	player += CYAN;
+		// }
+		// else {
+		// 	player += RESET;
+		// }
 		grid[playerRow][playerColumn] = " " + player + " ";
+	}
+
+	String[] gridStringArray() {
+		return this.toString().split("\n");
 	}
 
 	@Override
